@@ -2,7 +2,7 @@ const usersModel = require("../models/users");
 const conn = require("../config/databaase/database");
 const jwt = require("jsonwebtoken");
 const config = require("../config/Auth/config");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const Joi = require("joi");
 
 module.exports = {
