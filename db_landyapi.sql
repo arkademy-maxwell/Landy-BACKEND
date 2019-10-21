@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Okt 2019 pada 11.21
+-- Waktu pembuatan: 21 Okt 2019 pada 12.49
 -- Versi server: 10.3.16-MariaDB
 -- Versi PHP: 7.3.7
 
@@ -53,12 +53,22 @@ CREATE TABLE `users` (
   `title` varchar(10) NOT NULL,
   `first_name` varchar(20) NOT NULL,
   `last_name` varchar(20) NOT NULL,
-  `phone_number` int(15) NOT NULL,
+  `phone_number` varchar(15) NOT NULL,
   `email` varchar(40) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(200) NOT NULL,
   `created_date` timestamp NULL DEFAULT current_timestamp(),
   `updated_date` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `title`, `first_name`, `last_name`, `phone_number`, `email`, `password`, `created_date`, `updated_date`) VALUES
+(1, 'Mr.', 'Admin', 'Admin', '2147483647', 'admin@admin.com', '$2b$10$l.eHLzQtSJjXCcsRVLcV/OLaem7v/x0YvURkDLyHdMDz9ZD5ECUCC', '2019-10-21 10:08:24', NULL),
+(19, 'Mr.', 'Max', 'Well', '2147483647', 'maxwell@gmail.com', '$2b$10$JUkrv7BmTEjLCxB7QECBeeax.0Y6dnIAR6DPcDxRvEzU.AF201hea', '2019-10-21 10:32:13', NULL),
+(20, 'Mr.', 'Max', 'Well', '2147483647', 'maxwell@gmail.com', '$2b$10$2Z6aNKU2HbgVNEilLuT.9eYtFE3Yqgj1Y2nt6ljpKSXLU6T/WQ.Ke', '2019-10-21 10:33:16', NULL),
+(21, 'Mr.', 'Maxe', 'Welle', '081392371407', 'maxwell12@gmail.com', '$2b$10$3JonOdDMpM/4ZcYTamG8cOHnXXjL8rqxScrvjd.sR.1LFEIsp8olG', '2019-10-21 10:49:04', NULL);
 
 --
 -- Indexes for dumped tables
@@ -85,6 +95,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `room`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
