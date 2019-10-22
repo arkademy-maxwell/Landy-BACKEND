@@ -18,8 +18,8 @@ module.exports ={
             })
     },
     addAirlines: (req, res) =>{
-        const {id, name, code} = req.body
-        const data = {id, name, code}
+        const {id, name, code, facilities_id} = req.body
+        const data = {id, name, code, facilities_id}
 
         airlinesModel.addAirlines(data)
         .then(result =>{
@@ -39,8 +39,8 @@ module.exports ={
         },
 
         updateAirlines:(req, res)=>{
-            const {name, code} = req.body
-            const data = {name, code}
+            const {name, code, facilities_id} = req.body
+            const data = {name, code, facilities_id}
             const id = req.params.id
     
             airlinesModel.updateAirlines(data, id)
