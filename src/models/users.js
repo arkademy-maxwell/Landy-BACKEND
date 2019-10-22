@@ -1,16 +1,23 @@
 const conn = require("../config/databaase/database");
+<<<<<<< HEAD
+const bcryptjs = require("bcryptjs");
+=======
 const bcrypt = require("bcryptjs");
+>>>>>>> staging
 
 module.exports = {
   getAllUsers: () => {
     return new Promise((resolve, reject) => {
-      conn.query("SELECT * FROM users", (err, result) => {
-        if (!err) {
-          resolve(result);
-        } else {
-          reject(err);
+      conn.query(
+        "SELECT id,title,first_name,last_name,phone_number,email FROM users",
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
         }
-      });
+      );
     });
   },
   register: (
@@ -22,7 +29,7 @@ module.exports = {
     passwordNotHash
   ) => {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(passwordNotHash, 10, (err, password) => {
+      bcryptjs.hash(passwordNotHash, 10, (err, password) => {
         if (err) return reject(err);
         const data = {
           title,
