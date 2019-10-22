@@ -95,7 +95,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function (err) {
+    images.mv("Assets/Images/" + image, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -156,7 +156,6 @@ module.exports = {
       quantity
     } = req.body;
 
-
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded!");
     }
@@ -175,7 +174,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function (err) {
+    images.mv("Assets/Images/" + image, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -189,144 +188,28 @@ module.exports = {
       facility_id,
       price,
       quantity
-    }
+    };
 
-    const id = req.params.id
+    const id = req.params.id;
 
     roomModel
       .updateRoom(data, id)
       .then(result => {
         res.json({
           status: 200,
-          message: 'Data Edited Successfully',
+          message: "Data Edited Successfully",
           data
-        })
+        });
       })
       .catch(err => {
         res.status(500).json({
           status: 500,
-          message: 'Failed to Edit Data!',
+          message: "Failed to Edit Data!",
           error: err
-        })
-      })
-
-    // console.log(images.name);
-    // console.log(data);
-
-    // roomModel
-    //   .getById(id)
-    //   .then(result => {
-    //     console.log(result);
-    //     // fs.unlink(`Assets/Images/${result.image}`).catch(err => { });
-    //     fs.unlink(`Assets/Images/${result.image}`)
-
-
-    //     // const id = {
-    //     //   id = result.id
-    //     // }
-    //     // return roomModel.updateRoom(data, id);
-
-    //   })
-    //   // .then(() => {
-    //   //   const data = {
-    //   //     room,
-    //   //     description,
-    //   //     address,
-    //   //     facility_id,
-    //   //     image,
-    //   //     price,
-    //   //     quantity
-    //   //   };
-    //   // })
-    //   // .then(result => {
-    //   //   res.json({
-    //   //     status: 200,
-    //   //     message: "Success Updating Data!",
-    //   //     data: result
-    //   //   });
-    //   // })
-    //   .catch(err => {
-    //     console.log(err);
-    //     res.json({
-    //       status: 500,
-    //       message: "Hotel is Already Exist!"
-    //     });
-    //   });
+        });
+      });
   },
-  //   updateRoom: (req, res) => {
-  //     const {
-  //       room,
-  //       description,
-  //       address,
-  //       facility_id,
-  //       price,
-  //       quantity
-  //     } = req.body;
 
-  //     if (!req.files || Object.keys(req.files).length === 0) {
-  //     } else {
-  //       let images = req.files.image;
-  //       var fileType = images.mimetype;
-  //       var type = ``;
-
-  //       if (
-  //         fileType !== "image/png" &&
-  //         fileType !== "image/jpg" &&
-  //         fileType !== "image/jpeg" &&
-  //         fileType !== "image/svg" &&
-  //         fileType !== "image/gif"
-  //       ) {
-  //         return res.status(400).send("File not format");
-  //       }
-  //       if (fileType === "image/png") {
-  //         type = "png";
-  //       }
-  //       if (fileType === "image/jpg") {
-  //         type = "jpg";
-  //       }
-  //       if (fileType === "image/jpeg") {
-  //         type = "jpeg";
-  //       }
-  //       if (fileType === "image/svg") {
-  //         type = "svg";
-  //       }
-  //       if (fileType === "image/gif") {
-  //         type = "gif";
-  //       }
-  //       const img = roomController.uploadimg(req.files.image);
-  //       const data = {
-  //         room,
-  //         description,
-  //         address,
-  //         facility_id,
-  //         image: img,
-  //         price,
-  //         quantity
-  //       };
-  //       const id = req.params.id;
-  //     }
-
-  //     let data = { name, description, category, price, count };
-  //     let id = req.params.id;
-
-  //     roomModel
-  //       .updateRoom(data, id)
-  //       .then(result => {
-  //         res.json({
-  //           status: 200,
-  //           message: "Suksess",
-  //           data: result
-  //         });
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //         res.json({
-  //           status: 500,
-  //           status: "Error",
-  //           err
-  //         });
-  //       });
-  //   },
   deleteRoom: (req, res) => {
     const id = req.params;
 

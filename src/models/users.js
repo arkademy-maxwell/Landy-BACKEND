@@ -1,9 +1,5 @@
 const conn = require("../config/databaase/database");
-<<<<<<< HEAD
 const bcryptjs = require("bcryptjs");
-=======
-const bcrypt = require("bcryptjs");
->>>>>>> staging
 
 module.exports = {
   getAllUsers: () => {
