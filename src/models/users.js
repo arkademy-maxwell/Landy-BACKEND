@@ -1,5 +1,5 @@
 const conn = require("../config/databaase/database");
-const bcryptjs = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
   getAllUsers: () => {
@@ -25,7 +25,7 @@ module.exports = {
     passwordNotHash
   ) => {
     return new Promise((resolve, reject) => {
-      bcryptjs.hash(passwordNotHash, 10, (err, password) => {
+      bcrypt.hash(passwordNotHash, 10, (err, password) => {
         if (err) return reject(err);
         const data = {
           title,

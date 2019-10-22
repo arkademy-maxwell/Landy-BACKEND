@@ -2,7 +2,6 @@ const usersModel = require("../models/users");
 const conn = require("../config/databaase/database");
 const jwt = require("jsonwebtoken");
 const config = require("../config/Auth/config");
-const bcryptjs = require("bcryptjs");
 const bcrypt = require("bcryptjs");
 const Joi = require("joi");
 
@@ -40,7 +39,7 @@ module.exports = {
               message: "Account not Found!"
             });
           }
-          bcryptjs.compare(password, result.password, (err, valid) => {
+          bcrypt.compare(password, result.password, (err, valid) => {
             if (err) return res.status(500).send({ err });
             if (valid) {
               const token = jwt.sign({ email: email }, config.secret, {
