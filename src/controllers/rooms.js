@@ -95,7 +95,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function(err) {
+    images.mv("Assets/Images/" + image, function (err) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -156,6 +156,7 @@ module.exports = {
       quantity
     } = req.body;
 
+
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded!");
     }
@@ -174,44 +175,83 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function(err) {
+    images.mv("Assets/Images/" + image, function (err) {
       if (err) {
         return res.status(500).send(err);
       }
     });
 
+    const data = {
+      room,
+      description,
+      address,
+      image: images.name,
+      facility_id,
+      price,
+      quantity
+    }
+
+    const id = req.params.id
+
     roomModel
-      .getById(req.params.id)
-      .then(([result]) => {
-        console.log(result);
-        fs.unlink(`Assets/Images/${result.image}`).catch(err => {});
-      })
-      .then(() => {
-        const data = {
-          room,
-          description,
-          address,
-          facility_id,
-          image,
-          price,
-          quantity
-        };
-        return roomModel.updateRoom([data, { id: req.params.id }]);
-      })
+      .updateRoom(data, id)
       .then(result => {
         res.json({
           status: 200,
-          message: "Success Updating Data!",
-          data: result
-        });
+          message: 'Data Edited Successfully',
+          data
+        })
       })
       .catch(err => {
-        console.log(err);
-        res.json({
+        res.status(500).json({
           status: 500,
-          message: "Hotel is Already Exist!"
-        });
-      });
+          message: 'Failed to Edit Data!',
+          error: err
+        })
+      })
+
+    // console.log(images.name);
+    // console.log(data);
+
+    // roomModel
+    //   .getById(id)
+    //   .then(result => {
+    //     console.log(result);
+    //     // fs.unlink(`Assets/Images/${result.image}`).catch(err => { });
+    //     fs.unlink(`Assets/Images/${result.image}`)
+
+
+    //     // const id = {
+    //     //   id = result.id
+    //     // }
+    //     // return roomModel.updateRoom(data, id);
+
+    //   })
+    //   // .then(() => {
+    //   //   const data = {
+    //   //     room,
+    //   //     description,
+    //   //     address,
+    //   //     facility_id,
+    //   //     image,
+    //   //     price,
+    //   //     quantity
+    //   //   };
+    //   // })
+    //   // .then(result => {
+    //   //   res.json({
+    //   //     status: 200,
+    //   //     message: "Success Updating Data!",
+    //   //     data: result
+    //   //   });
+    //   // })
+    //   .catch(err => {
+    //     console.log(err);
+    //     res.json({
+    //       status: 500,
+    //       message: "Hotel is Already Exist!"
+    //     });
+    //   });
   },
   //   updateRoom: (req, res) => {
   //     const {
