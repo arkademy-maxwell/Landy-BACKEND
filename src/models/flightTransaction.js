@@ -2,9 +2,9 @@ const conn = require("../config/databaase/database");
 
 module.exports = {
     
-    getAllAirlines: ()=>{
+    getAllFlightTransaction: ()=>{
         return new Promise((resolve, reject) =>{
-            conn.query('SELECT airlines.name, airlines.code, flight_facilities.baggage, flight_facilities.food FROM airlines LEFT JOIN flight_facilities ON airlines.facilities_id = flight_facilities.id',
+            conn.query('SELECT * FROM flight_transactions ',
             (err,result)=>{
                 if (!err) {
                     resolve(result)
@@ -15,9 +15,9 @@ module.exports = {
         })
     },
     
-    addAirlines: (data) => {
+    addFlightTransaction: (data) => {
         return new Promise((resolve, reject)=>{
-            conn.query('INSERT INTO airlines SET ?', data, (err, result) =>{
+            conn.query('INSERT INTO flight_transactions SET ?', data, (err, result) =>{
 
                 if(!err){
                     resolve(data)
@@ -30,11 +30,11 @@ module.exports = {
         })
     },
     
-    updateAirlines: (data, id) => {
+    updateFlightTransaction: (data, id) => {
         return new Promise ((resolve, reject)=>{
-            conn.query('select * from airlines where id = ?', id, (err, resultSelect) => {
+            conn.query('select * from flight_transactions where id = ?', id, (err, resultSelect) => {
                 if (resultSelect.length > 0) {
-                  conn.query('update airlines set ? where id = ?', [data, id], (err, result) => {
+                  conn.query('update flight_transactions set ? where id = ?', [data, id], (err, result) => {
                     if (!err) {
                       resolve(result)
                     } else {
@@ -49,9 +49,9 @@ module.exports = {
           },
     
     
-    deleteAirlines: (data) => {
+    deleteFlightTransaction: (data) => {
         return new Promise ((resolve, reject) =>{
-            conn.query('DELETE from airlines where id=?', [data], (err, result)=>{
+            conn.query('DELETE from flight_transactions where id=?', [data], (err, result)=>{
                 if (!err) {
                     resolve(data)
                 }else{

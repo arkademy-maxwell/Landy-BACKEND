@@ -1,7 +1,7 @@
-const flightModel = require('../models/flight')
+const flightTransactionModel = require('../models/flightTransaction')
 module.exports ={
-    getAllFlight: (req, res) =>{
-        flightModel.getAllFlight()
+    getAllFlightTransaction: (req, res) =>{
+        flightTransactionModel.getAllFlightTransaction()
             .then(resultQuery =>{
                 res.json({
                     status : 200,
@@ -17,11 +17,12 @@ module.exports ={
                 })
             })
     },
-    addFlight: (req, res) =>{
-        const {code, seat_row, seat_column, airline_id} = req.body
-        const data = {code, seat_row, seat_column, airline_id}
+    addFlightTransaction: (req, res) =>{
+        const invoice = Math.floor(Math.random() * 1000)
+        const {flight_id, users_id, routes_id, code_seat} = req.body
+        const data = {invoice, flight_id, users_id, routes_id, code_seat}
 
-        flightModel.addFlight(data)
+        flightTransactionModel.addFlightTransaction(data)
         .then(result =>{
             res.json({
                 status : 200,
@@ -38,17 +39,17 @@ module.exports ={
         })
         },
 
-        updateFlight:(req, res)=>{
-            const {code, seat_row, seat_column, airline_id} = req.body
-            const data = {code, seat_row, seat_column, airline_id}
+        updateFlightTransaction:(req, res)=>{
+            const {flight_id, users_id, routes_id, code_seat} = req.body
+            const data = {flight_id, users_id, routes_id, code_seat}
             const id = req.params.id
     
-            flightModel.updateFlight(data, id)
+            flightTransactionModel.updateFlightTransaction(data, id)
             .then(result =>{
                 res.json({
                     status:200,
                     message: 'Suksess',
-                    data: data
+                    data: result
                 })
             })
             .catch(err => {
@@ -58,9 +59,9 @@ module.exports ={
                 })
             })
         },
-        deleteFlight: (req, res)=>{
+        deleteFlightTransaction: (req, res)=>{
     
-            flightModel.deleteFlight(req.params.id)
+            flightTransactionModel.deleteFlightTransaction(req.params.id)
             .then(result =>{
                 res.json({
                     status: 200,
