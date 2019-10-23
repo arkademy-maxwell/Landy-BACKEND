@@ -87,8 +87,8 @@ module.exports = {
   },
   register: (req, res) => {
     const schema = Joi.object().keys({
-      title: Joi.string()
-        .min(3)
+      title_id: Joi.string()
+        .min(1)
         .max(30)
         .required(),
       first_name: Joi.string()
@@ -118,7 +118,7 @@ module.exports = {
     }
 
     const {
-      title,
+      title_id,
       first_name,
       last_name,
       phone_number,
@@ -127,7 +127,7 @@ module.exports = {
     } = result.value;
 
     usersModel
-      .register(title, first_name, last_name, phone_number, email, password)
+      .register(title_id, first_name, last_name, phone_number, email, password)
       .then(result => {
         res.json({
           status: 200,
@@ -143,26 +143,4 @@ module.exports = {
         });
       });
   }
-  // updatePassword: (req, res) => {
-  //   var { password } = req.body;
-  //   bcrypt.compare(password, result.password, (err, valid) => {
-  //     var data = { password };
-  //     var id = req.params.id;
-
-  //     usersModel
-  //       .updatePassword(data, id)
-  //       .then(result => {
-  //         res.json({
-  //           status: 200,
-  //           message: "Update Success"
-  //         });
-  //       })
-  //       .catch(err => {
-  //         res.status(500).json({
-  //           status: 500,
-  //           message: "Update Failed"
-  //         });
-  //       });
-  //   });
-  // }
 };
