@@ -4,7 +4,7 @@ module.exports = {
   getRoom: (search, limit, page = 1, room) => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room.id, room.room, room.description,room.address,room.image, room.price, room.quantity,room.created_date, room.updated_date FROM room 
+        `SELECT room.id, room.room, room.description,room.locations,room.address,room.image, room.price, room.quantity FROM room 
             ${search ? `WHERE room.room LIKE '%${search}%'` : ""} ${
           room ? `ORDER BY ${room}` : ""
         } ${limit ? `LIMIT ${limit} OFFSET ${(page - 1) * limit}` : ""}`,
@@ -58,7 +58,7 @@ module.exports = {
   getDesc: room => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room.id, room.room, room.description,room.address,room.image, room.price, room.quantity,room.created_date, room.updated_date FROM room  ${
+        `SELECT room.id, room.room, room.description,room.locations,room.address,room.image, room.price, room.quantity FROM room  ${
           room ? `ORDER BY ${room} DESC` : ""
         } `,
         (err, result) => {
