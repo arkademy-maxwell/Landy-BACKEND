@@ -51,18 +51,15 @@ module.exports = {
             [data, id],
             (err, result) => {
               if (!err) {
-                if (data.image !== null && image !== null) {
-                  fs.unlink(`./Assets/Icons/${image}`, err => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      result = "Image deleted!";
-                      resolve(result);
-                    }
-                  });
+                const path = `./Assets/Icons/${image}`;
+                try {
+                  if (fs.existsSync(path)) fs.unlinkSync(path);
+                  return resolve("Success");
+                } catch (err) {
+                  console.log(err);
                 }
               } else {
-                reject(new Error(err));
+                reject(err);
               }
             }
           );

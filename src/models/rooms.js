@@ -94,15 +94,12 @@ module.exports = {
             [data, id],
             (err, result) => {
               if (!err) {
-                if (data.image !== "" && image !== null) {
-                  fs.unlink(`./Assets/Images/${image}`, err => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      result = "Image deleted!";
-                      resolve(result);
-                    }
-                  });
+                const path = `./Assets/Images/${image}`;
+                try {
+                  if (fs.existsSync(path)) fs.unlinkSync(path);
+                  return resolve("Success");
+                } catch (err) {
+                  console.log(err);
                 }
               } else {
                 reject(err);
