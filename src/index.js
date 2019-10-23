@@ -7,6 +7,9 @@ const flightFacilities = require("./routes/flightFacilities");
 const airlines = require("./routes/airlines");
 const facility = require("./routes/facility");
 const rooms = require("./routes/rooms");
+const roomsTransaction = require("./routes/roomsTransaction");
+const flightRoutes = require("./routes/flightRoutes");
+const airport = require("./routes/airport");
 const flightRoutes = require('./routes/flightRoutes')
 const airport = require('./routes/airport')
 const discountRoom = require('./routes/discountRoom')
@@ -18,11 +21,12 @@ const customerInfo = require('./routes/customerInfo')
 Route.use("/users", users);
 Route.use("/flight", flight);
 Route.use("/flightFacilities", flightFacilities);
-Route.use('/flightRoutes', flightRoutes)
-Route.use('/airport', airport)
+Route.use("/flightRoutes", flightRoutes);
+Route.use("/airport", airport);
 Route.use("/airlines", airlines);
 Route.use("/facility", facility);
 Route.use("/rooms", rooms);
+Route.use("/roomTransaction", roomsTransaction);
 Route.use('/discountRoom', discountRoom)
 Route.use('/discountFlight', discountFlight)
 Route.use('/insuranceFlight', insuranceFlight)
