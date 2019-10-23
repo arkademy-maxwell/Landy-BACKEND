@@ -131,7 +131,8 @@ module.exports = {
       .then(result => {
         res.json({
           status: 200,
-          message: "Registration Success"
+          message: "Registration Success",
+          data: result
         });
       })
       .catch(err => {
