@@ -149,6 +149,7 @@ module.exports = {
     const images = req.files.image;
 
     const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
+    // const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
 
     const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
       req.files.image.mimetype.split("/")[1]
@@ -174,7 +175,7 @@ module.exports = {
       description,
       address,
       locations,
-      image: images.name,
+      image: image,
       price,
       quantity
     };

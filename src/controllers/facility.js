@@ -1,5 +1,6 @@
 const facilityModel = require("../models/facility");
 const uuid = require("uuid/v1");
+
 module.exports = {
   getFacility: (req, res) => {
     facilityModel
@@ -44,7 +45,7 @@ module.exports = {
         return res.status(500).send(err);
       }
     });
-    const data = { name, image: images.name };
+    const data = { name, image };
     // return res.json(data)
     // facilityModel
     //   .addFacility(data)
@@ -82,11 +83,34 @@ module.exports = {
     }
   },
   updateFacility: (req, res) => {
-    const { name, image } = req.body;
+    const { name } = req.body;
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send("No files were uploaded!");
+    }
+
+    const images = req.files.image;
+
+    const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
+
+    const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
+      req.files.image.mimetype.split("/")[1]
+    );
+    if (!img) {
+      return res.json({
+        status: 400,
+        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
+      });
+    }
+
+    images.mv("Assets/Icons/" + image, function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+    });
     const data = { name, image };
 
     facilityModel
-      .updateFacility([data, { id: req.params.id }])
+      .updateFacility(data, { id: req.params.id })
       .then(result => {
         res.json({
           status: 200,

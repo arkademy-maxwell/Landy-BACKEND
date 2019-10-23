@@ -1,4 +1,5 @@
 const conn = require("../config/databaase/database");
+const fs = require("fs"); // file system
 
 module.exports = {
   getRoom: (search, limit, page = 1, room) => {
@@ -83,15 +84,26 @@ module.exports = {
     });
   },
   updateRoom: (data, id) => {
+    console.log(data.image);
     return new Promise((resolve, reject) => {
       conn.query("SELECT * from room WHERE id = ?", id, (err, resultSelect) => {
+        image = resultSelect[0].image;
         if (resultSelect.length > 0) {
           conn.query(
             "UPDATE room SET ? WHERE id = ?",
             [data, id],
             (err, result) => {
               if (!err) {
-                resolve(result);
+                if (data.image !== "" && image !== null) {
+                  fs.unlink(`./Assets/Images/${image}`, err => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      result = "Image deleted!";
+                      resolve(result);
+                    }
+                  });
+                }
               } else {
                 reject(err);
               }
@@ -106,12 +118,24 @@ module.exports = {
 
   deleteRoom: id => {
     return new Promise((resolve, reject) => {
-      conn.query("DELETE from room WHERE ?", [id], (err, result) => {
-        if (!err) {
-          resolve(result);
-        } else {
-          reject(new Error(err));
-        }
+      conn.query("SELECT image FROM room WHERE ?", [id], (err, result) => {
+        let image = result[0].image;
+        conn.query("DELETE from room WHERE ?", [id], (err, result) => {
+          if (!err) {
+            if (image !== null) {
+              fs.unlink(`./Assets/Images/${image}`, err => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  result = "Image deleted!";
+                  resolve(result);
+                }
+              });
+            }
+          } else {
+            reject(new Error(err));
+          }
+        });
       });
     });
   },
