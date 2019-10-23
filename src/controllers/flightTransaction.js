@@ -1,7 +1,7 @@
-const airlinesModel = require('../models/airlines')
+const flightTransactionModel = require('../models/flightTransaction')
 module.exports ={
-    getAllAirlines: (req, res) =>{
-        airlinesModel.getAllAirlines()
+    getAllFlightTransaction: (req, res) =>{
+        flightTransactionModel.getAllFlightTransaction()
             .then(resultQuery =>{
                 res.json({
                     status : 200,
@@ -17,11 +17,12 @@ module.exports ={
                 })
             })
     },
-    addAirlines: (req, res) =>{
-        const {id, name, code, facilities_id} = req.body
-        const data = {id, name, code, facilities_id}
+    addFlightTransaction: (req, res) =>{
+        const invoice = Math.floor(Math.random() * 1000)
+        const {passenger_id, users_id, routes_id } = req.body
+        const data = {invoice, passenger_id, users_id, routes_id}
 
-        airlinesModel.addAirlines(data)
+        flightTransactionModel.addFlightTransaction(data)
         .then(result =>{
             res.json({
                 status : 200,
@@ -38,12 +39,12 @@ module.exports ={
         })
         },
 
-        updateAirlines:(req, res)=>{
-            const {name, code, facilities_id} = req.body
-            const data = {name, code, facilities_id}
+        updateFlightTransaction:(req, res)=>{
+            const {passenger_id, users_id, routes_id} = req.body
+            const data = {passenger_id, users_id, routes_id}
             const id = req.params.id
     
-            airlinesModel.updateAirlines(data, id)
+            flightTransactionModel.updateFlightTransaction(data, id)
             .then(result =>{
                 res.json({
                     status:200,
@@ -58,9 +59,9 @@ module.exports ={
                 })
             })
         },
-        deleteAirlines: (req, res)=>{
+        deleteFlightTransaction: (req, res)=>{
     
-            airlinesModel.deleteAirlines(req.params.id)
+            flightTransactionModel.deleteFlightTransaction(req.params.id)
             .then(result =>{
                 res.json({
                     status: 200,
