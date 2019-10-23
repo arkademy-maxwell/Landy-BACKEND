@@ -10,6 +10,7 @@ const flightRoutes = require('./routes/flightRoutes')
 const airport = require('./routes/airport')
 const discountRoom = require('./routes/discountRoom')
 const discountFlight = require('./routes/discountFlight')
+const insuranceFlight = require('./routes/insuranceFlight')
 
 Route.use("/users", users);
 Route.use("/flight", flight);
@@ -21,5 +22,6 @@ Route.use("/facility", facility);
 Route.use("/rooms", rooms);
 Route.use('/discountRoom', discountRoom)
 Route.use('/discountFlight', discountFlight)
+Route.use('/insuranceFlight', insuranceFlight)
 
 module.exports = Route;
