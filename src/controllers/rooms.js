@@ -68,7 +68,7 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, locations, facility_id, price, quantity } = req.body;
+    const { room, description, address, locations, price, quantity } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were Add!");
@@ -99,7 +99,6 @@ module.exports = {
       description,
       address,
       locations,
-      facility_id,
       image,
       price,
       quantity
@@ -107,7 +106,6 @@ module.exports = {
     if (req.files.image) {
       if (req.body.quantity >= 0) {
         const isRoomAvailable = await roomModel.getByName(room);
-        console.log(isRoomAvailable[0].room);
         if (isRoomAvailable[0].room == 0) {
           roomModel
             .addRoom(data)
