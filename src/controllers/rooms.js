@@ -68,7 +68,7 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, locations, price, quantity } = req.body;
+    const { room, description, address, locations, facility_id, price, quantity } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were Add!");
@@ -88,7 +88,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function(err) {
+    images.mv("Assets/Images/" + image, function (err) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -99,6 +99,7 @@ module.exports = {
       description,
       address,
       locations,
+      facility_id,
       image,
       price,
       quantity
@@ -114,7 +115,7 @@ module.exports = {
               res.json({
                 status: 200,
                 message: "Success Adding Data!",
-                data: result
+                data: data
               });
             })
             .catch(err => {
@@ -161,7 +162,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function(err) {
+    images.mv("Assets/Images/" + image, function (err) {
       if (err) {
         return res.status(500).send(err);
       }
