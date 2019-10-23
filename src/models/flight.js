@@ -4,7 +4,7 @@ module.exports = {
     
     getAllFlight: ()=>{
         return new Promise((resolve, reject) =>{
-            conn.query('SELECT flight.id, flight.code, flight.seat_row, flight.seat_column, airlines.name airline_name FROM flight JOIN airlines on airline_id = airlines.id',
+            conn.query('SELECT flight.id, flight.code, airlines.name airline_name FROM flight JOIN airlines on airline_id = airlines.id',
             (err,result)=>{
                 if (!err) {
                     resolve(result)

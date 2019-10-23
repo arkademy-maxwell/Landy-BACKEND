@@ -18,8 +18,8 @@ module.exports ={
             })
     },
     addFlight: (req, res) =>{
-        const {code, seat_row, seat_column, airline_id} = req.body
-        const data = {code, seat_row, seat_column, airline_id}
+        const {code, airline_id} = req.body
+        const data = {code, airline_id}
 
         flightModel.addFlight(data)
         .then(result =>{
@@ -39,8 +39,8 @@ module.exports ={
         },
 
         updateFlight:(req, res)=>{
-            const {code, seat_row, seat_column, airline_id} = req.body
-            const data = {code, seat_row, seat_column, airline_id}
+            const {code, airline_id} = req.body
+            const data = {code, airline_id}
             const id = req.params.id
     
             flightModel.updateFlight(data, id)
