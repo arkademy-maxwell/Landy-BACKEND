@@ -4,7 +4,7 @@ module.exports = {
   getRoom: (search, limit, page = 1, room) => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room.id, room.room, room.description,room.address,facility.name as facility, room.image, room.price, room.quantity,room.created_date, room.updated_date FROM room JOIN facility ON room.facility_id = facility.id 
+        `SELECT room.id, room.room, room.description,room.address,room.image, room.price, room.quantity,room.created_date, room.updated_date FROM room 
             ${search ? `WHERE room.room LIKE '%${search}%'` : ""} ${
           room ? `ORDER BY ${room}` : ""
         } ${limit ? `LIMIT ${limit} OFFSET ${(page - 1) * limit}` : ""}`,
@@ -58,7 +58,7 @@ module.exports = {
   getDesc: room => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room.id, room.room, room.description,room.address,facility.name as facility, room.image, room.price, room.quantity,room.created_date, room.updated_date FROM room JOIN facility ON room.facility_id = facility.id ${
+        `SELECT room.id, room.room, room.description,room.address,room.image, room.price, room.quantity,room.created_date, room.updated_date FROM room  ${
           room ? `ORDER BY ${room} DESC` : ""
         } `,
         (err, result) => {
@@ -84,23 +84,23 @@ module.exports = {
   },
   updateRoom: (data, id) => {
     return new Promise((resolve, reject) => {
-      //   conn.query("SELECT * from room WHERE id = ?", id, (err, resultSelect) => {
-      //     if (resultSelect.length > 0) {
-      conn.query(
-        "UPDATE room SET ? WHERE id = ?",
-        [data, id],
-        (err, result) => {
-          if (!err) {
-            resolve(result);
-          } else {
-            reject(err);
-          }
+      conn.query("SELECT * from room WHERE id = ?", id, (err, resultSelect) => {
+        if (resultSelect.length > 0) {
+          conn.query(
+            "UPDATE room SET ? WHERE id = ?",
+            [data, id],
+            (err, result) => {
+              if (!err) {
+                resolve(result);
+              } else {
+                reject(err);
+              }
+            }
+          );
+        } else {
+          reject("ID NOT FOUND!");
         }
-      );
-      //     } else {
-      //       reject("ID NOT FOUND!");
-      //     }
-      //   });
+      });
     });
   },
 

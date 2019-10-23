@@ -12,6 +12,21 @@ module.exports = {
       });
     });
   },
+  getByName: facility => {
+    return new Promise((resolve, reject) => {
+      conn.query(
+        "SELECT COUNT(id) AS facility FROM facility WHERE facility = ?",
+        [facility],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(new Error(err));
+          }
+        }
+      );
+    });
+  },
   addFacility: data => {
     return new Promise((resolve, reject) => {
       conn.query("INSERT INTO facility SET ?", data, (err, result) => {

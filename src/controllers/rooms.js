@@ -68,14 +68,7 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const {
-      room,
-      description,
-      address,
-      facility_id,
-      price,
-      quantity
-    } = req.body;
+    const { room, description, address, price, quantity } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were Add!");
@@ -105,7 +98,6 @@ module.exports = {
       room,
       description,
       address,
-      facility_id,
       image,
       price,
       quantity
@@ -147,14 +139,7 @@ module.exports = {
     }
   },
   updateRoom: (req, res) => {
-    const {
-      room,
-      description,
-      address,
-      facility_id,
-      price,
-      quantity
-    } = req.body;
+    const { room, description, address, price, quantity } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded!");
@@ -179,19 +164,20 @@ module.exports = {
         return res.status(500).send(err);
       }
     });
+    // fs.unlink(path.join(__dirname) + `/../../${isExist[0].image}`, err => {
+    //   if (err) return console.log("file not exist in directory upload");
+    // });
 
     const data = {
       room,
       description,
       address,
       image: images.name,
-      facility_id,
       price,
       quantity
     };
 
     const id = req.params.id;
-
     roomModel
       .updateRoom(data, id)
       .then(result => {
