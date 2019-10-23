@@ -143,13 +143,14 @@ module.exports = {
         });
       });
   }
-  //   updateUsers: (req, res) => {
-  //     var { password } = req.body;
+  // updatePassword: (req, res) => {
+  //   var { password } = req.body;
+  //   bcrypt.compare(password, result.password, (err, valid) => {
   //     var data = { password };
   //     var id = req.params.id;
 
   //     usersModel
-  //       .updateUsers(data, id)
+  //       .updatePassword(data, id)
   //       .then(result => {
   //         res.json({
   //           status: 200,
@@ -162,5 +163,6 @@ module.exports = {
   //           message: "Update Failed"
   //         });
   //       });
-  //   }
+  //   });
+  // }
 };

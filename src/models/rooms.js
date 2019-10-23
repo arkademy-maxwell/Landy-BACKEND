@@ -115,15 +115,15 @@ module.exports = {
       });
     });
   },
-  reduceRoom: (id, qty) => {
+  reduceRoom: (id, quantity) => {
     return new Promise((resolve, reject) => {
       conn.query("SELECT * from room WHERE id = ?", id, (err, result) => {
         if (result.length >= 0) {
-          const quantity = result[0].qty - qty;
-          if (quantity >= 0) {
+          const qty = result[0].quantity - quantity;
+          if (qty >= 0) {
             conn.query(
-              "UPDATE room SET qty = ? WHERE id = ?",
-              [quantity, id],
+              "UPDATE room SET quantity = ? WHERE id = ?",
+              [qty, id],
               (err, update) => {
                 if (!err) {
                   resolve(result);

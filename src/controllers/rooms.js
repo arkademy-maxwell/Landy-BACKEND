@@ -68,7 +68,7 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, price, quantity } = req.body;
+    const { room, description, address, locations, price, quantity } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were Add!");
@@ -98,6 +98,7 @@ module.exports = {
       room,
       description,
       address,
+      locations,
       image,
       price,
       quantity
@@ -139,7 +140,7 @@ module.exports = {
     }
   },
   updateRoom: (req, res) => {
-    const { room, description, address, price, quantity } = req.body;
+    const { room, description, address, locations, price, quantity } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded!");
@@ -172,6 +173,7 @@ module.exports = {
       room,
       description,
       address,
+      locations,
       image: images.name,
       price,
       quantity
