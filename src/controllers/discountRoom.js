@@ -20,7 +20,7 @@ module.exports = {
       })
   },
   addDiscount: (req, res) => {
-    const { name, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration } = req.body
+    const { name, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration, duration_end } = req.body
     const images = req.files.image;
 
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -42,7 +42,7 @@ module.exports = {
       }
     });
 
-    const data = { name, image, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration }
+    const data = { name, image, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration, duration_end }
 
     discountRoomModel.addDiscount(data)
       .then(result => {
@@ -63,7 +63,7 @@ module.exports = {
       })
   },
   updateDiscount: (req, res) => {
-    const { name, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration } = req.body
+    const { name, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration, duration_end } = req.body
     const images = req.files.image;
     const id = req.params.id
 
@@ -86,7 +86,7 @@ module.exports = {
       }
     });
 
-    const data = { name, image, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration }
+    const data = { name, image, amount, max_amount, description, coupon_code, coupon_code_description, terms, duration, duration_end }
 
     discountRoomModel.updateDiscount(data, id)
       .then(result => {
