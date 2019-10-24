@@ -1,35 +1,38 @@
-const flightRoutesModel = require('../models/flightRoutes')
+const insuranceModel = require('../models/insuranceFlight')
+
 module.exports = {
-  getFlightRoutes: (req, res) => {
-    flightRoutesModel.getFlightRoutes()
+  getInsuranceFlight: (req, res) => {
+    insuranceModel.getInsuranceFlight()
       .then(resultQuery => {
         res.json({
           status: 200,
-          message: 'Get Data Success!',
+          message: 'Success Get Data!',
           data: resultQuery
         })
       })
       .catch(err => {
+        console.log(err)
         res.json({
           status: 500,
-          message: 'Get Data Failed',
-          error: err
+          message: 'Error Get Data!'
         })
       })
   },
-  addFlightRoutes: (req, res) => {
-    const { origin_id, destination_id, departure, arrival, quantity, price, airlines_id } = req.body
-    const data = { origin_id, destination_id, departure, arrival, quantity, price, airlines_id }
+  addInsuranceFlight: (req, res) => {
+    const { name, pay, description, terms, claim, disclaimer, benefit } = req.body
+    const data = { name, pay, description, terms, claim, disclaimer, benefit }
 
-    flightRoutesModel.addFlightRoutes(data)
+    insuranceModel.addInsuranceFlight(data)
       .then(result => {
         res.json({
           status: 200,
-          message: 'Add Data Success!',
+          message: 'Success Add Data!',
           data: data
         })
       })
       .catch(err => {
+        console.log(err);
+
         res.json({
           status: 500,
           message: 'Error Add Data!',
@@ -37,12 +40,12 @@ module.exports = {
         })
       })
   },
-  updateFlightRoutes: (req, res) => {
-    const { origin_id, destination_id, departure, arrival, quantity, price, airlines_id } = req.body
-    const data = { origin_id, destination_id, departure, arrival, quantity, price, airlines_id }
+  updateInsuranceFlight: (req, res) => {
+    const { name, pay, description, terms, claim, disclaimer, benefit } = req.body
     const id = req.params.id
+    const data = { name, pay, description, terms, claim, disclaimer, benefit }
 
-    flightRoutesModel.updateFlightRoutes(data, id)
+    insuranceModel.updateInsuranceFlight(data, id)
       .then(result => {
         res.json({
           status: 200,
@@ -58,10 +61,10 @@ module.exports = {
         })
       })
   },
-  deleteFlightRoutes: (req, res) => {
+  deleteInsuranceFlight: (req, res) => {
     const id = req.params.id
 
-    flightRoutesModel.deleteFlightRoutes(id)
+    insuranceModel.deleteInsuranceFlight(id)
       .then(result => {
         res.json({
           status: 200,

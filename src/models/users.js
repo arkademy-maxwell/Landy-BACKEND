@@ -45,4 +45,21 @@ module.exports = {
       });
     });
   }
+  // updatePassword: passwordNotHash => {
+  //   return new Promise((resolve, reject) => {
+  //     bcrypt.hash(passwordNotHash, 10, (err, password) => {
+  //       if (err) return reject(err);
+  //       const data = {
+  //         password
+  //       };
+  //       conn.query("UPDATE users SET ? WHERE id = ?", data, (err, result) => {
+  //         if (!err) {
+  //           resolve(result);
+  //         } else {
+  //           reject(err);
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 };
