@@ -5,7 +5,7 @@ module.exports = {
   getRoom: (search, limit, page = 1, room) => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room.id, room.room, room.description,room.locations,room.address,room.image, room.price, room.quantity FROM room 
+        `SELECT room.id, room.room, room.description,room.locations,room.address, room.price, room.quantity, album.image1, album.image2, album.image3, album.image4, album.image5 FROM room JOIN album ON room.album_id = album.id
             ${search ? `WHERE room.room LIKE '%${search}%'` : ""} ${
           room ? `ORDER BY ${room}` : ""
         } ${limit ? `LIMIT ${limit} OFFSET ${(page - 1) * limit}` : ""}`,
@@ -47,7 +47,7 @@ module.exports = {
   },
   getById: id => {
     return new Promise((resolve, reject) => {
-      conn.query("SELECT * FROM room WHERE id = ?", [id], (err, result) => {
+      conn.query("SELECT room.id, room.room, room.description,room.locations,room.address, room.price, room.quantity, album.image1, album.image2, album.image3, album.image4, album.image5 FROM room JOIN album ON room.album_id = album.id WHERE room.id = ?", [id], (err, result) => {
         if (!err) {
           resolve(result);
         } else {
@@ -59,7 +59,7 @@ module.exports = {
   getDesc: room => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room.id, room.room, room.description,room.locations,room.address,room.image, room.price, room.quantity FROM room  ${
+        `SELECT room.id, room.room, room.description,room.locations,room.address, room.price, room.quantity, album.image1, album.image2, album.image3, album.image4, album.image5 FROM room JOIN album ON room.album_id = album.id  ${
           room ? `ORDER BY ${room} DESC` : ""
         } `,
         (err, result) => {

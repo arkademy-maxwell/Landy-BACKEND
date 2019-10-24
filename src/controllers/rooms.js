@@ -68,42 +68,17 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, locations, price, quantity } = req.body;
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were Add!");
-    }
-
-    const images = req.files.image;
-
-    const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
-
-    const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image.mimetype.split("/")[1]
-    );
-    if (!img) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
-
-    images.mv("Assets/Images/" + image, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
+    const { room, description, address, locations,album_id, price, quantity } = req.body;
 
     const data = {
       room,
       description,
       address,
       locations,
-      image,
+      album_id,
       price,
       quantity
     };
-    if (req.files.image) {
       if (req.body.quantity >= 0) {
         const isRoomAvailable = await roomModel.getByName(room);
         if (isRoomAvailable[0].room == 0) {
@@ -136,7 +111,6 @@ module.exports = {
           message: "Quantity cannot below 0"
         });
       }
-    }
   },
   updateRoom: (req, res) => {
     const { room, description, address, locations, price, quantity } = req.body;
