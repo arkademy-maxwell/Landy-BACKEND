@@ -51,7 +51,7 @@ module.exports = {
         res.json({
           status: 200,
           message: "Suksess",
-          data: result
+          data: data
         });
       })
       .catch(err => {

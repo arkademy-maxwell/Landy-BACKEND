@@ -3,7 +3,7 @@ const conn = require('../config/databaase/database')
 module.exports = {
   getCustomerInfo: () => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT   customer_info.id, title.name title, customer_info.first_name,customer_info.last_name, nationalities.nation FROM customer_info JOIN nationalities ON customer_info.nationality_code = nationalities.initial JOIN title ON customer_info.title_id = title.id', (err, result) => {
+      conn.query('SELECT customer_info.id, title.name title, customer_info.first_name,customer_info.last_name, nationalities.nation FROM customer_info JOIN nationalities ON customer_info.nationality_code = nationalities.initial JOIN title ON customer_info.title_id = title.id ORDER BY customer_info.id ASC', (err, result) => {
         if (!err) {
           resolve(result)
         } else {

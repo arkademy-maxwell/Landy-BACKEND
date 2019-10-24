@@ -3,7 +3,7 @@ const conn = require('../config/databaase/database')
 module.exports = {
   getFlightRoutes: () => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT X1.id, X2.name origin_airport, X2.location origin_location, X2.code origin_code, X3.name destination_airport, X3.location destination_location, X3.code destination_code, departure, arrival, quantity, price FROM flight_routes X1 LEFT JOIN airport X2 ON X1.origin_id = X2.id LEFT JOIN airport X3 ON X1.destination_id = X3.id ORDER BY X1.id ASC', (err, result) => {
+      conn.query('SELECT X1.id, X4.name airlines, X2.name origin_airport, X2.location origin_location, X2.code origin_code, X3.name destination_airport, X3.location destination_location, X3.code destination_code, departure, arrival, quantity, price FROM flight_routes X1 LEFT JOIN airport X2 ON X1.origin_id = X2.id LEFT JOIN airport X3 ON X1.destination_id = X3.id LEFT JOIN airlines X4 ON X1.airlines_id = X4.id ORDER BY X1.id ASC', (err, result) => {
         if (!err) {
           resolve(result)
         } else {
