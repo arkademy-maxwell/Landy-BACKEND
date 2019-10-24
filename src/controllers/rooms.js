@@ -73,7 +73,6 @@ module.exports = {
       description,
       address,
       locations,
-      album_id,
       price,
       quantity
     } = req.body;
@@ -83,7 +82,6 @@ module.exports = {
       description,
       address,
       locations,
-      album_id,
       price,
       quantity
     };
@@ -123,36 +121,35 @@ module.exports = {
   updateRoom: (req, res) => {
     const { room, description, address, locations, price, quantity } = req.body;
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were uploaded!");
-    }
+    // if (!req.files || Object.keys(req.files).length === 0) {
+    //   return res.status(400).send("No files were uploaded!");
+    // }
 
-    const images = req.files.image;
+    // const images = req.files.image;
 
-    const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
+    // const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
 
-    const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image.mimetype.split("/")[1]
-    );
-    if (!img) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
+    // const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
+    //   req.files.image.mimetype.split("/")[1]
+    // );
+    // if (!img) {
+    //   return res.json({
+    //     status: 400,
+    //     message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
+    //   });
+    // }
 
-    images.mv("Assets/Images/" + image, function(err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
+    // images.mv("Assets/Images/" + image, function(err) {
+    //   if (err) {
+    //     return res.status(500).send(err);
+    //   }
+    // });
 
     const data = {
       room,
       description,
       address,
       locations,
-      image: image,
       price,
       quantity
     };
