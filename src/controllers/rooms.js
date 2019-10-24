@@ -148,7 +148,6 @@ module.exports = {
     const images = req.files.image;
 
     const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
-    // const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
 
     const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
       req.files.image.mimetype.split("/")[1]
@@ -165,9 +164,6 @@ module.exports = {
         return res.status(500).send(err);
       }
     });
-    // fs.unlink(path.join(__dirname) + `/../../${isExist[0].image}`, err => {
-    //   if (err) return console.log("file not exist in directory upload");
-    // });
 
     const data = {
       room,
