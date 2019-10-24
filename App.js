@@ -17,15 +17,15 @@ const routerNav = require("./src/index");
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, function () {
+app.listen(port, function() {
   console.log("Server has running on port :" + port);
 });
-app.use(express.static(__dirname + "/uploads/images"));
+app.use(express.static(__dirname + "/Assets/Images"));
 
 app.use("/api/v1", routerNav);
 
 app.get("*"),
   (req, res) => {
-    res.status(404)
+    res.status(404);
     res.send("The page you are looking for is not found.");
   };

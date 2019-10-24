@@ -5,9 +5,9 @@ const flightController = require("../controllers/flight");
 
 Route
     .get("/",  flightController.getAllFlight)
-    .post("/", authentication.jwtToken, flightController.addFlight)
-    .put('/:id', authentication.jwtToken, flightController.updateFlight)
-    .delete('/:id', authentication.jwtToken, flightController.deleteFlight)
+    .post("/",  flightController.addFlight)
+    .put('/:id',  flightController.updateFlight)
+    .delete('/:id',  flightController.deleteFlight)
   
 
 module.exports = Route;

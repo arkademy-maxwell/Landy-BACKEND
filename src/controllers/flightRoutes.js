@@ -18,8 +18,8 @@ module.exports = {
       })
   },
   addFlightRoutes: (req, res) => {
-    const { origin_id, destination_id, departure, arrival, quantity, price } = req.body
-    const data = { origin_id, destination_id, departure, arrival, quantity, price }
+    const { origin_id, destination_id, departure, arrival, quantity, price, airlines_id } = req.body
+    const data = { origin_id, destination_id, departure, arrival, quantity, price, airlines_id }
 
     flightRoutesModel.addFlightRoutes(data)
       .then(result => {
@@ -38,8 +38,8 @@ module.exports = {
       })
   },
   updateFlightRoutes: (req, res) => {
-    const { origin_id, destination_id, departure, arrival, quantity, price } = req.body
-    const data = { origin_id, destination_id, departure, arrival, quantity, price }
+    const { origin_id, destination_id, departure, arrival, quantity, price, airlines_id } = req.body
+    const data = { origin_id, destination_id, departure, arrival, quantity, price, airlines_id }
     const id = req.params.id
 
     flightRoutesModel.updateFlightRoutes(data, id)

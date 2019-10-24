@@ -5,7 +5,7 @@ module.exports = {
   getAllUsers: () => {
     return new Promise((resolve, reject) => {
       conn.query(
-        "SELECT id,title,first_name,last_name,phone_number,email FROM users",
+        "SELECT users.id,title.name title ,users.first_name,users.last_name,users.phone_number,users.email FROM users JOIN title ON users.title_id = title.id",
         (err, result) => {
           if (!err) {
             resolve(result);
@@ -17,7 +17,7 @@ module.exports = {
     });
   },
   register: (
-    title,
+    title_id,
     first_name,
     last_name,
     phone_number,
@@ -28,7 +28,7 @@ module.exports = {
       bcrypt.hash(passwordNotHash, 10, (err, password) => {
         if (err) return reject(err);
         const data = {
-          title,
+          title_id,
           first_name,
           last_name,
           phone_number,
@@ -45,4 +45,21 @@ module.exports = {
       });
     });
   }
+  // updatePassword: passwordNotHash => {
+  //   return new Promise((resolve, reject) => {
+  //     bcrypt.hash(passwordNotHash, 10, (err, password) => {
+  //       if (err) return reject(err);
+  //       const data = {
+  //         password
+  //       };
+  //       conn.query("UPDATE users SET ? WHERE id = ?", data, (err, result) => {
+  //         if (!err) {
+  //           resolve(result);
+  //         } else {
+  //           reject(err);
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 };
