@@ -1,36 +1,77 @@
-const albumModel = require('../models/album')
+const albumModel = require("../models/album");
 const uuid = require("uuid/v4");
+// const _ = require("loadash");
 
 module.exports = {
   getAlbum: (req, res) => {
-    albumModel.getAlbum()
+    albumModel
+      .getAlbum()
       .then(resultQuery => {
         res.json({
           status: 200,
-          message: 'Get Data Success!',
+          message: "Get Data Success!",
           data: resultQuery
-        })
+        });
       })
       .catch(err => {
         res.json({
           status: 500,
-          message: 'Get Data Failed',
+          message: "Get Data Failed",
           error: err
-        })
-      })
+        });
+      });
   },
   addAlbum: async (req, res) => {
-
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were Add!");
     }
 
-    const images = req.files.image1;
+    let dataImage = [];
+    let img = req.files.image;
+    img.map((item, key) => {
+      // Validasi Gambar
+      const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
+        req.files.image[key].mimetype.split("/")[1]
+      );
+      if (!img) {
+        return res.json({
+          status: 400,
+          message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
+        });
+      }
 
-    const image1 = uuid() + `.${req.files.image1.mimetype.split("/")[1]}`;
+      // Upload Action
+      let uploadImage = req.files.image[key];
+      const image = uuid() + `.${req.files.image[key].mimetype.split("/")[1]}`;
+      uploadImage.mv("Assets/Images/" + image);
+      dataImage.push([image, req.body.room_id]);
+    });
 
+    albumModel
+      .addAlbum(dataImage)
+      .then(result => {
+        res.json({
+          status: 200,
+          message: "Success Adding Data!",
+          data: dataImage
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          status: 500,
+          message: "Error Adding New Data!"
+        });
+      });
+  },
+  updateAlbum: async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send("No files were Add!");
+    }
+
+    // Validasi Gambar
     const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image1.mimetype.split("/")[1]
+      req.files.image.mimetype.split("/")[1]
     );
     if (!img) {
       return res.json({
@@ -39,142 +80,47 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image1, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
+    // Upload Action
+    let uploadImage = req.files.image;
+    const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
+    uploadImage.mv("Assets/Images/" + image);
 
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were Add!");
-    }
-
-    const images2 = req.files.image2;
-
-    const image2 = uuid() + `.${req.files.image2.mimetype.split("/")[1]}`;
-
-    const img2 = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image2.mimetype.split("/")[1]
-    );
-    if (!img2) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
-
-    images2.mv("Assets/Images/" + image2, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
-
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were Add!");
-    }
-
-    const images3 = req.files.image3;
-
-    const image3 = uuid() + `.${req.files.image3.mimetype.split("/")[1]}`;
-
-    const img3 = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image3.mimetype.split("/")[1]
-    );
-    if (!img3) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
-    images3.mv("Assets/Images/" + image3, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were Add!");
-    }
-
-    const images4 = req.files.image4;
-
-    const image4 = uuid() + `.${req.files.image4.mimetype.split("/")[1]}`;
-
-    const img4 = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image4.mimetype.split("/")[1]
-    );
-    if (!img4) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
-    images4.mv("Assets/Images/" + image4, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were Add!");
-    }
-
-    const images5 = req.files.image5;
-
-    const image5 = uuid() + `.${req.files.image5.mimetype.split("/")[1]}`;
-
-    const img5 = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image3.mimetype.split("/")[1]
-    );
-    if (!img5) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
-    images5.mv("Assets/Images/" + image5, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
-
-    const data = {image1, image2, image3, image4, image5};
-          albumModel.addAlbum(data)
-            .then(result => {
-              res.json({
-                status: 200,
-                message: "Success Adding Data!",
-                data: data
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              res.json({
-                status: 500,
-                message: "Error Adding New Data!"
-              });
-            });
-  },
-
-  deleteAlbum: (req, res) => {
-    const id = req.params.id
-
-    albumModel.deleteAlbum(id)
+    const oldImage = req.body.old_image;
+    albumModel
+      .updateAlbum({ image }, oldImage)
       .then(result => {
         res.json({
           status: 200,
-          message: 'Success Delete Data!',
-          data: id
-        })
+          message: "Success Updating Data!",
+          data: { image }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          status: 500,
+          message: "Error Updating New Data!"
+        });
+      });
+  },
+
+  deleteAlbum: (req, res) => {
+    const id = req.body.image;
+
+    albumModel
+      .deleteAlbum(id)
+      .then(result => {
+        res.json({
+          status: 200,
+          message: "Success Delete Data!"
+        });
       })
       .catch(err => {
         res.json({
           status: 500,
-          message: 'Error Delete Data',
+          message: "Error Delete Data",
           error: err
-        })
-      })
+        });
+      });
   }
-}
+};

@@ -47,13 +47,17 @@ module.exports = {
   },
   getById: id => {
     return new Promise((resolve, reject) => {
-      conn.query("SELECT room.id, room.room, room.description,room.locations,room.address, room.price, room.quantity, album.image1, album.image2, album.image3, album.image4, album.image5 FROM room JOIN album ON room.album_id = album.id WHERE room.id = ?", [id], (err, result) => {
-        if (!err) {
-          resolve(result);
-        } else {
-          reject(new Error(err));
+      conn.query(
+        "SELECT room.id, room.room, room.description,room.locations,room.address, room.price, room.quantity, album.image1, album.image2, album.image3, album.image4, album.image5 FROM room JOIN album ON room.album_id = album.id WHERE room.id = ?",
+        [id],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(new Error(err));
+          }
         }
-      });
+      );
     });
   },
   getDesc: room => {
@@ -94,13 +98,7 @@ module.exports = {
             [data, id],
             (err, result) => {
               if (!err) {
-                const path = `./Assets/Images/${image}`;
-                try {
-                  if (fs.existsSync(path)) fs.unlinkSync(path);
-                  return resolve("Success");
-                } catch (err) {
-                  console.log(err);
-                }
+                resolve(result);
               } else {
                 reject(err);
               }
@@ -113,26 +111,37 @@ module.exports = {
     });
   },
 
+  // deleteRoom: id => {
+  //   return new Promise((resolve, reject) => {
+  //     conn.query("SELECT image FROM room WHERE ?", [id], (err, result) => {
+  //       let image = result[0].image;
+  //       conn.query("DELETE from room WHERE ?", [id], (err, result) => {
+  //         if (!err) {
+  //           if (image !== null) {
+  //             fs.unlink(`./Assets/Images/${image}`, err => {
+  //               if (err) {
+  //                 console.log(err);
+  //               } else {
+  //                 result = "Image deleted!";
+  //                 resolve(result);
+  //               }
+  //             });
+  //           }
+  //         } else {
+  //           reject(new Error(err));
+  //         }
+  //       });
+  //     });
+  //   });
+  // },
   deleteRoom: id => {
     return new Promise((resolve, reject) => {
-      conn.query("SELECT image FROM room WHERE ?", [id], (err, result) => {
-        let image = result[0].image;
-        conn.query("DELETE from room WHERE ?", [id], (err, result) => {
-          if (!err) {
-            if (image !== null) {
-              fs.unlink(`./Assets/Images/${image}`, err => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  result = "Image deleted!";
-                  resolve(result);
-                }
-              });
-            }
-          } else {
-            reject(new Error(err));
-          }
-        });
+      conn.query("DELETE FROM room WHERE ?", [id], (err, result) => {
+        if (!err) {
+          resolve(result);
+        } else {
+          reject(new Error(err));
+        }
       });
     });
   },

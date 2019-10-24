@@ -68,7 +68,15 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, locations,album_id, price, quantity } = req.body;
+    const {
+      room,
+      description,
+      address,
+      locations,
+      album_id,
+      price,
+      quantity
+    } = req.body;
 
     const data = {
       room,
@@ -79,38 +87,38 @@ module.exports = {
       price,
       quantity
     };
-      if (req.body.quantity >= 0) {
-        const isRoomAvailable = await roomModel.getByName(room);
-        if (isRoomAvailable[0].room == 0) {
-          roomModel
-            .addRoom(data)
-            .then(result => {
-              res.json({
-                status: 200,
-                message: "Success Adding Data!",
-                data: data
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              res.json({
-                status: 500,
-                message: "Error Adding New Data!"
-              });
+    if (req.body.quantity >= 0) {
+      const isRoomAvailable = await roomModel.getByName(room);
+      if (isRoomAvailable[0].room == 0) {
+        roomModel
+          .addRoom(data)
+          .then(result => {
+            res.json({
+              status: 200,
+              message: "Success Adding Data!",
+              data: data
             });
-        } else {
-          res.json({
-            status: 400,
-            message: "Error, Hotel already in database!",
-            room
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({
+              status: 500,
+              message: "Error Adding New Data!"
+            });
           });
-        }
       } else {
-        res.status(400).json({
+        res.json({
           status: 400,
-          message: "Quantity cannot below 0"
+          message: "Error, Hotel already in database!",
+          room
         });
       }
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: "Quantity cannot below 0"
+      });
+    }
   },
   updateRoom: (req, res) => {
     const { room, description, address, locations, price, quantity } = req.body;
@@ -133,7 +141,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function (err) {
+    images.mv("Assets/Images/" + image, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
