@@ -19,8 +19,8 @@ module.exports ={
     },
     addFlightTransaction: (req, res) =>{
         const invoice = Math.floor(Math.random() * 1000)
-        const {passenger_id, users_id, routes_id } = req.body
-        const data = {invoice, passenger_id, users_id, routes_id}
+        const {total_price, users_id, routes_id } = req.body
+        const data = {invoice, total_price, users_id, routes_id}
 
         flightTransactionModel.addFlightTransaction(data)
         .then(result =>{
@@ -40,8 +40,8 @@ module.exports ={
         },
 
         updateFlightTransaction:(req, res)=>{
-            const {passenger_id, users_id, routes_id} = req.body
-            const data = {passenger_id, users_id, routes_id}
+            const {total_price, users_id, routes_id} = req.body
+            const data = {total_price, users_id, routes_id}
             const id = req.params.id
     
             flightTransactionModel.updateFlightTransaction(data, id)
