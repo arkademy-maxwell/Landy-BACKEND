@@ -46,23 +46,6 @@ module.exports = {
       }
     });
     const data = { name, image };
-    // return res.json(data)
-    // facilityModel
-    //   .addFacility(data)
-    //   .then(result => {
-    //     res.json({
-    //       status: 200,
-    //       message: "Success Adding Data!",
-    //       data: result
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     res.json({
-    //       status: 500,
-    //       message: "Error Adding Data!"
-    //     });
-    //   });
     if (req.files.image) {
       facilityModel
         .addFacility(data)

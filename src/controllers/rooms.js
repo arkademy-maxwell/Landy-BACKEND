@@ -68,7 +68,15 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, locations, facility_id, price, quantity } = req.body;
+    const {
+      room,
+      description,
+      address,
+      locations,
+      facility_id,
+      price,
+      quantity
+    } = req.body;
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were Add!");
@@ -88,7 +96,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function (err) {
+    images.mv("Assets/Images/" + image, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
@@ -150,7 +158,6 @@ module.exports = {
     const images = req.files.image;
 
     const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
-    // const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
 
     const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
       req.files.image.mimetype.split("/")[1]
@@ -162,14 +169,11 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function (err) {
+    images.mv("Assets/Images/" + image, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
     });
-    // fs.unlink(path.join(__dirname) + `/../../${isExist[0].image}`, err => {
-    //   if (err) return console.log("file not exist in directory upload");
-    // });
 
     const data = {
       room,
