@@ -24,8 +24,12 @@ app.use(express.static(__dirname + "/Assets/Images"));
 
 app.use("/api/v1", routerNav);
 
-app.get("*"),
-  (req, res) => {
+app.get(("/"),(req, res) => {
+  res.status(404);
+  res.send("Welcome to Landy API V1 : MaxwelTeam");
+});
+
+app.get(("*"),(req, res) => {
     res.status(404);
     res.send("The page you are looking for is not found.");
-  };
+  });

@@ -9,20 +9,12 @@ module.exports = {
       console.log(err)
     }
   },
-  selectDetail: async () => {
+  selectDetail: async (FILTER) => {
     try {
-      return DB.query(`SELECT * FROM ${table}`)
+      return DB.query(`SELECT * FROM ${table} WHERE ?`, FILTER)
     }
     catch (err) {
       console.log(err)
     }
   },
-  selectAll: async () => {
-    try {
-      return DB.query(`SELECT * FROM ${table}`)
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
 }
