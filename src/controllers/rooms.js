@@ -68,74 +68,56 @@ module.exports = {
       });
   },
   addRoom: async (req, res) => {
-    const { room, description, address, locations, price, quantity } = req.body;
-
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were Add!");
-    }
-
-    const images = req.files.image;
-
-    const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
-
-    const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-      req.files.image.mimetype.split("/")[1]
-    );
-    if (!img) {
-      return res.json({
-        status: 400,
-        message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-      });
-    }
-
-    images.mv("Assets/Images/" + image, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-    });
+    const {
+      room,
+      description,
+      address,
+      locations,
+      album_id,
+      price,
+      quantity
+    } = req.body;
 
     const data = {
       room,
       description,
       address,
       locations,
-      image,
+      album_id,
       price,
       quantity
     };
-    if (req.files.image) {
-      if (req.body.quantity >= 0) {
-        const isRoomAvailable = await roomModel.getByName(room);
-        if (isRoomAvailable[0].room == 0) {
-          roomModel
-            .addRoom(data)
-            .then(result => {
-              res.json({
-                status: 200,
-                message: "Success Adding Data!",
-                data: data
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              res.json({
-                status: 500,
-                message: "Error Adding New Data!"
-              });
+    if (req.body.quantity >= 0) {
+      const isRoomAvailable = await roomModel.getByName(room);
+      if (isRoomAvailable[0].room == 0) {
+        roomModel
+          .addRoom(data)
+          .then(result => {
+            res.json({
+              status: 200,
+              message: "Success Adding Data!",
+              data: data
             });
-        } else {
-          res.json({
-            status: 400,
-            message: "Error, Hotel already in database!",
-            room
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({
+              status: 500,
+              message: "Error Adding New Data!"
+            });
           });
-        }
       } else {
-        res.status(400).json({
+        res.json({
           status: 400,
-          message: "Quantity cannot below 0"
+          message: "Error, Hotel already in database!",
+          room
         });
       }
+    } else {
+      res.status(400).json({
+        status: 400,
+        message: "Quantity cannot below 0"
+      });
     }
   },
   updateRoom: (req, res) => {
@@ -159,7 +141,7 @@ module.exports = {
       });
     }
 
-    images.mv("Assets/Images/" + image, function (err) {
+    images.mv("Assets/Images/" + image, function(err) {
       if (err) {
         return res.status(500).send(err);
       }
