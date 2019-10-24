@@ -15,6 +15,7 @@ const discountFlight = require('./routes/discountFlight')
 const insuranceFlight = require('./routes/insuranceFlight')
 const flightTransaction = require("./routes/flightTransaction");
 const customerInfo = require('./routes/customerInfo')
+const flightTransactionDetail = require('./routes/flightTransactionDetail')
 
 Route.use("/users", users);
 Route.use("/flight", flight);
@@ -30,5 +31,6 @@ Route.use('/discountFlight', discountFlight)
 Route.use('/insuranceFlight', insuranceFlight)
 Route.use("/flightTransaction", flightTransaction);
 Route.use("/customerInfo", customerInfo);
+Route.use('/flightTransactionDetail', flightTransactionDetail)
 
 module.exports = Route;
