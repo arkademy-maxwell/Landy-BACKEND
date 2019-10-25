@@ -4,7 +4,7 @@ module.exports = {
   getRoomTransaction: () => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT room_transaction.id, room_transaction.invoices, room_transaction.date_transaction,room_transaction.durations,room.price, room.room,room.locations, room.quantity,users.title,users.first_name,users.last_name,users.phone_number,users.email,transaction.transaction FROM room_transaction LEFT JOIN room ON room_transaction.room_id = room.id LEFT JOIN users on room_transaction.users_id= users.id LEFT JOIN transaction on room_transaction.transaction_id= transaction.id`,
+        `SELECT room_transaction.id, room_transaction.invoices, room_transaction.date_transaction,room_transaction.durations,room.price, room.room,room.locations, room.quantity,title.name,users.first_name,users.last_name,users.phone_number,users.email,transaction.transaction FROM room_transaction LEFT JOIN room ON room_transaction.room_id = room.id LEFT JOIN users on room_transaction.users_id= users.id LEFT JOIN transaction on room_transaction.transaction_id= transaction.id JOIN title on users.title_id = title.id`,
         (err, result) => {
           if (!err) {
             resolve(result);
@@ -18,7 +18,7 @@ module.exports = {
   getById: id => {
     return new Promise((resolve, reject) => {
       conn.query(
-        "SELECT room_transaction.id, room_transaction.invoices, room_transaction.date_transaction,room_transaction.durations,room.price, room.room,room.locations, room.quantity,users.title,users.first_name,users.last_name,users.phone_number,users.email,transaction.transaction FROM room_transaction LEFT JOIN room ON room_transaction.room_id = room.id LEFT JOIN users on room_transaction.users_id= users.id LEFT JOIN transaction on room_transaction.transaction_id= transaction.id WHERE id = ?",
+        "SELECT room_transaction.id, room_transaction.invoices, room_transaction.date_transaction,room_transaction.durations,room.price, room.room,room.locations, room.quantity,title.name,users.first_name,users.last_name,users.phone_number,users.email,transaction.transaction FROM room_transaction LEFT JOIN room ON room_transaction.room_id = room.id LEFT JOIN users on room_transaction.users_id= users.id LEFT JOIN transaction on room_transaction.transaction_id= transaction.id JOIN title on users.title_id = title.id WHERE id = ?",
         [id],
         (err, result) => {
           if (!err) {
