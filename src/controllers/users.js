@@ -24,26 +24,21 @@ module.exports = {
     }
 
     const { email, password } = result.value;
-
     if (email && password) {
       conn.query(
         "SELECT * FROM users WHERE email = ?",
         [email],
         (err, [result]) => {
-          if (err) {
-            return res.status(500).send({ err });
-          }
-          if (result < 1) {
+          if (!result) {
             return res.json({
               success: 400,
               message: "Account not Found!"
             });
           }
           bcrypt.compare(password, result.password, (err, valid) => {
-            if (err) return res.status(500).send({ err });
             if (valid) {
               const token = jwt.sign({ email: email }, config.secret, {
-                expiresIn: "24h"
+                expiresIn: "1h"
               });
               return res.json({
                 success: 200,
