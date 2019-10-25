@@ -29,11 +29,11 @@ module.exports = {
       conn.query(
         "SELECT * FROM users WHERE email = ?",
         [email],
-        (err, [result]) => {
+        (err, result) => {
           if (err) {
             return res.status(500).send({ err });
           }
-          if (result < 1) {
+          if (result.length < 1) {
             return res.json({
               success: 400,
               message: "Account not Found!"
@@ -43,7 +43,7 @@ module.exports = {
             if (err) return res.status(500).send({ err });
             if (valid) {
               const token = jwt.sign({ email: email }, config.secret, {
-                expiresIn: "24h"
+                expiresIn: "1h"
               });
               return res.json({
                 success: 200,
