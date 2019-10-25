@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 25, 2019 at 04:19 PM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.1.32
+-- Host: localhost:3306
+-- Generation Time: Oct 26, 2019 at 03:36 AM
+-- Server version: 5.7.27-0ubuntu0.18.04.1
+-- PHP Version: 7.2.19-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -248,7 +248,7 @@ CREATE TABLE `flight_routes` (
 --
 
 INSERT INTO `flight_routes` (`id`, `origin_id`, `destination_id`, `departure`, `arrival`, `quantity`, `price`, `airlines_id`, `type_id`) VALUES
-(1, 1, 2, '2019-10-18 11:00:00', '2019-10-18 17:00:00', 10, 1000000, 1, 1),
+(1, 1, 2, '2019-10-18 11:00:00', '2019-10-18 17:00:00', 10, 3500000, 1, 1),
 (2, 2, 1, '2019-10-25 20:00:00', '2019-10-25 23:00:00', 20, 2000000, 2, 1),
 (3, 1, 2, '2019-10-27 08:00:00', '2019-10-27 12:00:00', 30, 2500000, 1, 1),
 (4, 3, 4, '2019-11-01 08:00:00', '2019-11-01 12:00:00', 30, 2500000, 3, 1),
@@ -263,7 +263,7 @@ INSERT INTO `flight_routes` (`id`, `origin_id`, `destination_id`, `departure`, `
 CREATE TABLE `flight_transactions` (
   `id` int(2) NOT NULL,
   `invoice` int(11) NOT NULL,
-  `date_transaction` timestamp NULL DEFAULT current_timestamp(),
+  `date_transaction` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `routes_id` int(2) NOT NULL,
   `users_id` int(2) NOT NULL,
   `total_price` int(15) NOT NULL
@@ -279,7 +279,8 @@ INSERT INTO `flight_transactions` (`id`, `invoice`, `date_transaction`, `routes_
 (11, 79, '2019-10-23 13:03:47', 3, 2, 0),
 (12, 46, '2019-10-23 15:34:35', 3, 3, 0),
 (13, 296, '2019-10-23 15:35:47', 3, 1, 1000000),
-(14, 12, '2019-10-24 13:53:41', 2, 1, 10000000);
+(14, 12, '2019-10-24 13:53:41', 2, 1, 10000000),
+(15, 945, '2019-10-25 20:24:43', 4, 1, 2500000);
 
 -- --------------------------------------------------------
 
@@ -424,8 +425,8 @@ CREATE TABLE `room` (
   `address` varchar(200) NOT NULL,
   `price` int(24) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `created_date` timestamp NULL DEFAULT current_timestamp(),
-  `updated_date` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `created_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -478,7 +479,7 @@ INSERT INTO `room_facility` (`id`, `name`, `room_id`) VALUES
 CREATE TABLE `room_transaction` (
   `id` int(11) NOT NULL,
   `invoices` int(11) NOT NULL,
-  `date_transaction` timestamp NOT NULL DEFAULT current_timestamp(),
+  `date_transaction` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `durations` int(5) NOT NULL,
   `room_id` int(11) NOT NULL,
   `users_id` int(11) NOT NULL,
@@ -490,7 +491,12 @@ CREATE TABLE `room_transaction` (
 --
 
 INSERT INTO `room_transaction` (`id`, `invoices`, `date_transaction`, `durations`, `room_id`, `users_id`, `transaction_id`) VALUES
-(1, 1234, '2019-10-22 07:25:03', 2, 5, 1, '2');
+(1, 1234, '2019-10-22 07:25:03', 2, 5, 1, '2'),
+(2, 645, '2019-10-25 15:28:35', 1, 2, 1, '1'),
+(3, 113, '2019-10-25 15:39:37', 1, 1, 1, '1'),
+(4, 460, '2019-10-25 18:24:03', 1, 1, 1, '1'),
+(5, 242, '2019-10-25 18:26:10', 1, 1, 1, '1'),
+(6, 12, '2019-10-25 18:33:08', 1, 1, 1, '1');
 
 -- --------------------------------------------------------
 
@@ -546,20 +552,22 @@ CREATE TABLE `users` (
   `phone_number` varchar(15) NOT NULL,
   `email` varchar(40) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `created_date` timestamp NULL DEFAULT current_timestamp(),
-  `updated_date` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `created_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `activation_key` varchar(64) DEFAULT NULL,
+  `date_req_activation_key` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `title_id`, `first_name`, `last_name`, `code`, `phone_number`, `email`, `password`, `created_date`, `updated_date`) VALUES
-(1, 1, 'Adila', 'Tresna', 62, '081542055103', 'adilatresna21@gmail.com', '$2b$10$iDU0GoxlaKPXrHXokSqNIeilSzkXoCSxdS3d58Hb28zJV57avsw6S', '2019-10-21 14:14:18', '2019-10-25 06:22:07'),
-(2, 3, 'Hervita', 'Ayu', 62, '081512312', 'hervita@gmail.com', '$2a$10$TAFuUPaWLZL14EImLf9pLe9.GFdjAvafq/9srDuY2JbRwSGM05JCW', '2019-10-23 15:37:32', '2019-10-25 06:22:14'),
-(3, 3, 'Kim', 'Jisoo', 82, '8151231232', 'jisookim12@gmail.com', '$2a$10$EiYclDRAlgnCh7gFC/68D.RNgAxY8iu2GfDlxeOBzFuhe/exHYPuK', '2019-10-25 06:33:02', '2019-10-25 06:37:14'),
-(4, 1, 'Rizky', 'Syarif', 62, '081512312', 'rizky@gmail.com', '$2a$10$JTQ2P7YOO0Clp95TM8rn8e.DjYVzXdC9qwSi9C52wGvV59rt7LIZO', '2019-10-21 15:42:59', '2019-10-25 06:22:24'),
-(5, 3, 'Kim', 'Jennie', 82, '081512312', 'jennie@gmail.com', '$2a$10$gWn2hxCEqvpD4z4wDwQFK.fJMi/g3FhMFghNYBYDuNl81AO9yJMy2', '2019-10-25 06:39:24', NULL);
+INSERT INTO `users` (`id`, `title_id`, `first_name`, `last_name`, `code`, `phone_number`, `email`, `password`, `created_date`, `updated_date`, `activation_key`, `date_req_activation_key`) VALUES
+(1, 1, 'Adila', 'Tresna', 62, '081542055103', 'adilatresna21@gmail.com', '$2b$10$iDU0GoxlaKPXrHXokSqNIeilSzkXoCSxdS3d58Hb28zJV57avsw6S', '2019-10-21 14:14:18', '2019-10-25 06:22:07', '', NULL),
+(2, 3, 'Hervita', 'Ayu', 62, '081512312', 'hervita@gmail.com', '$2a$10$TAFuUPaWLZL14EImLf9pLe9.GFdjAvafq/9srDuY2JbRwSGM05JCW', '2019-10-23 15:37:32', '2019-10-25 06:22:14', '', NULL),
+(3, 3, 'Kim', 'Jisoo', 82, '8151231232', 'jisookim12@gmail.com', '$2a$10$EiYclDRAlgnCh7gFC/68D.RNgAxY8iu2GfDlxeOBzFuhe/exHYPuK', '2019-10-25 06:33:02', '2019-10-25 06:37:14', '', NULL),
+(4, 1, 'Rizky', 'Syarif', 62, '081512312', 'rizky@gmail.com', '$2a$10$JTQ2P7YOO0Clp95TM8rn8e.DjYVzXdC9qwSi9C52wGvV59rt7LIZO', '2019-10-21 15:42:59', '2019-10-25 06:22:24', '', NULL),
+(5, 3, 'Kim', 'Jennie', 82, '081512312', 'jennie@gmail.com', '$2a$10$gWn2hxCEqvpD4z4wDwQFK.fJMi/g3FhMFghNYBYDuNl81AO9yJMy2', '2019-10-25 06:39:24', NULL, '', NULL);
 
 --
 -- Indexes for dumped tables
@@ -737,25 +745,25 @@ ALTER TABLE `discount_room`
 -- AUTO_INCREMENT for table `flight`
 --
 ALTER TABLE `flight`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `flight_facilities`
 --
 ALTER TABLE `flight_facilities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `flight_routes`
 --
 ALTER TABLE `flight_routes`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `flight_transactions`
 --
 ALTER TABLE `flight_transactions`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `flight_transactions_detail`
@@ -803,7 +811,7 @@ ALTER TABLE `room_facility`
 -- AUTO_INCREMENT for table `room_transaction`
 --
 ALTER TABLE `room_transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `title`
