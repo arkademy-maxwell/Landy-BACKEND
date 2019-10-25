@@ -2,13 +2,53 @@ const conn = require("../config/databaase/database");
 const fs = require("fs"); // file system
 
 module.exports = {
-  getRoom: (search, limit, page = 1, room) => {
+  getRoom: (search) => {
     return new Promise((resolve, reject) => {
       conn.query(
-        `SELECT * FROM room
-            ${search ? `WHERE room.room LIKE '%${search}%'` : ""} ${
-          room ? `ORDER BY ${room}` : ""
-        } ${limit ? `LIMIT ${limit} OFFSET ${(page - 1) * limit}` : ""}`,
+        `SELECT room.*, album.image FROM room JOIN album ON room.id = album.room_id ${search ? `WHERE room LIKE '%${search}%'` : ""}`,
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(new Error(err));
+          }
+        }
+      );
+    });
+  },
+  getRoomSearch: (data) => {
+    return new Promise((resolve, reject) => {
+      conn.query(
+        `SELECT * FROM room ${data.search ? `WHERE room LIKE '%${data.search}%'` : ""} ${data.price_min ? `WHERE price BETWEEN '${data.price_min}' AND '${data.price_max}'` : ""} ${data.searchBed ? `WHERE bed_type LIKE '%${data.searchBed}%'` : ""} ${data.searchType ? `WHERE room_type LIKE '%${data.searchType}%'` : ""} ${data.sort ? ` ORDER by ${data.sort} ${data.sortBy}` : ''}`,
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(new Error(err));
+          }
+        }
+      );
+    });
+  },
+
+  getRoomSearchFacility: (searchFacility) => {
+    return new Promise((resolve, reject) => {
+      conn.query(
+        `SELECT room.*, room_facility.name FROM room JOIN room_facility ON room.id = room_facility.room_id ${searchFacility ? `WHERE room_facility.name LIKE '%${searchFacility}%'` : ""} `,
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(new Error(err));
+          }
+        }
+      );
+    });
+  },
+  getLocation: (search) => {
+    return new Promise((resolve, reject) => {
+      conn.query(
+        `SELECT room.id, room.locations FROM room ${search ? `WHERE locations LIKE '%${search}%'` : ""}`,
         (err, result) => {
           if (!err) {
             resolve(result);
@@ -111,29 +151,7 @@ module.exports = {
     });
   },
 
-  // deleteRoom: id => {
-  //   return new Promise((resolve, reject) => {
-  //     conn.query("SELECT image FROM room WHERE ?", [id], (err, result) => {
-  //       let image = result[0].image;
-  //       conn.query("DELETE from room WHERE ?", [id], (err, result) => {
-  //         if (!err) {
-  //           if (image !== null) {
-  //             fs.unlink(`./Assets/Images/${image}`, err => {
-  //               if (err) {
-  //                 console.log(err);
-  //               } else {
-  //                 result = "Image deleted!";
-  //                 resolve(result);
-  //               }
-  //             });
-  //           }
-  //         } else {
-  //           reject(new Error(err));
-  //         }
-  //       });
-  //     });
-  //   });
-  // },
+
   deleteRoom: id => {
     return new Promise((resolve, reject) => {
       conn.query("DELETE FROM room WHERE ?", [id], (err, result) => {

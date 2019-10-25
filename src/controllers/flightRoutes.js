@@ -1,11 +1,19 @@
 const flightRoutesModel = require('../models/flightRoutes')
+
 module.exports = {
+
   getFlightRoutes: (req, res) => {
-    flightRoutesModel.getFlightRoutes()
-      .then(resultQuery => {
+        let {price_min, sort,sortBy, price_max, search } = req.query
+        let data = {sort, sortBy ,price_min, price_max, search}
+
+    flightRoutesModel.getFlightRoutes(data)
+    // flightRoutesModel.getFlightRoutesSearch(data)
+      .then( async resultQuery => {
+        let Amount = await flightRoutesModel.getTotalData()
         res.json({
           status: 200,
           message: 'Get Data Success!',
+          Amount: Amount[0].Amount,
           data: resultQuery
         })
       })

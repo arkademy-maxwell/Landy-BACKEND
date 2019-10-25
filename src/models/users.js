@@ -5,7 +5,7 @@ module.exports = {
   getAllUsers: () => {
     return new Promise((resolve, reject) => {
       conn.query(
-        "SELECT users.id,title.name title ,users.first_name,users.last_name,users.phone_number,users.email FROM users JOIN title ON users.title_id = title.id",
+        "SELECT users.id,title.name title ,users.first_name,users.last_name,users.code,users.phone_number,users.email FROM users JOIN title ON users.title_id = title.id",
         (err, result) => {
           if (!err) {
             resolve(result);
@@ -20,6 +20,7 @@ module.exports = {
     title_id,
     first_name,
     last_name,
+    code,
     phone_number,
     email,
     passwordNotHash
@@ -31,6 +32,7 @@ module.exports = {
           title_id,
           first_name,
           last_name,
+          code,
           phone_number,
           email,
           password

@@ -4,6 +4,9 @@ const authentication = require("../config/Auth/authentication");
 const roomCategory = require("../controllers/rooms");
 
 Route.get("/", roomCategory.getRoom)
+  .get("/search", roomCategory.getRoomSearch)
+  .get("/searchFacility", roomCategory.getRoomSearchFacility)
+  .get("/location", roomCategory.getLocation)
   .get("/desc", roomCategory.getDesc)
   .get("/:id", roomCategory.getById)
   .post("/", authentication.jwtToken, roomCategory.addRoom)
