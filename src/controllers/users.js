@@ -101,6 +101,7 @@ module.exports = {
         .min(3)
         .max(30)
         .required(),
+      code: Joi.required(),
       phone_number: Joi.required(),
       email: Joi.string()
         .email({ minDomainAtoms: 2 })
@@ -121,13 +122,14 @@ module.exports = {
       title_id,
       first_name,
       last_name,
+      code,
       phone_number,
       email,
       password
     } = result.value;
 
     usersModel
-      .register(title_id, first_name, last_name, phone_number, email, password)
+      .register(title_id, first_name, last_name,code, phone_number, email, password)
       .then(result => {
         res.json({
           status: 200,

@@ -4,10 +4,10 @@ const fs = require("fs");
 
 module.exports = {
   getRoom: (req, res) => {
-    const { search, limit, page, sort } = req.query;
+    const { search } = req.query;
 
     roomModel
-      .getRoom(search, limit, page, sort)
+      .getRoom(search)
       .then(async result => {
         let Amount = await roomModel.getAll();
         res.json({
@@ -25,6 +25,69 @@ module.exports = {
         });
       });
   },
+  getRoomSearchFacility: (req, res) => {
+    const { searchFacility } = req.query;
+
+    roomModel
+    roomModel.getRoomSearchFacility(searchFacility)
+      .then(async result => {
+        let Amount = await roomModel.getAll();
+        res.json({
+          status: 200,
+          message: "Success View a Data!",
+          Amount: Amount[0].Amount,
+          data: result
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          status: 500,
+          message: "Error View a Data!"
+        });
+      });
+  },
+  getRoomSearch: (req, res) => {
+    const { search,searchBed, searchType, searchFacility,sort, sortBy, price_min, price_max } = req.query;
+    const data = {search, sort, sortBy, price_min, price_max, searchBed, searchType, searchFacility}
+
+    roomModel.getRoomSearch(data)
+      .then(async result => {
+        res.json({
+          status: 200,
+          message: "Success View a Data!",
+          data: result
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          status: 500,
+          message: "Error View a Data!"
+        });
+      });
+  },
+  getLocation: (req, res) => {
+    const { search } = req.query;
+
+    roomModel
+      .getLocation(search)
+      .then( result => {
+        res.json({
+          status: 200,
+          message: "Success View a Data!",
+          data: result
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          status: 500,
+          message: "Error View a Data!"
+        });
+      });
+  },
+
   getDesc: (req, res) => {
     const { sort } = req.query;
 
@@ -74,7 +137,9 @@ module.exports = {
       address,
       locations,
       price,
-      quantity
+      quantity,
+      room_type,
+      bed_type
     } = req.body;
 
     const data = {
@@ -83,7 +148,9 @@ module.exports = {
       address,
       locations,
       price,
-      quantity
+      quantity,
+      room_type,
+      bed_type
     };
     if (req.body.quantity >= 0) {
       const isRoomAvailable = await roomModel.getByName(room);
@@ -119,39 +186,16 @@ module.exports = {
     }
   },
   updateRoom: (req, res) => {
-    const { room, description, address, locations, price, quantity } = req.body;
-
-    // if (!req.files || Object.keys(req.files).length === 0) {
-    //   return res.status(400).send("No files were uploaded!");
-    // }
-
-    // const images = req.files.image;
-
-    // const image = uuid() + `.${req.files.image.mimetype.split("/")[1]}`;
-
-    // const img = ["png", "jpg", "jpeg", "svg", "gif"].includes(
-    //   req.files.image.mimetype.split("/")[1]
-    // );
-    // if (!img) {
-    //   return res.json({
-    //     status: 400,
-    //     message: 'File must be an image ("png","jpg","jpeg","svg","gif")!'
-    //   });
-    // }
-
-    // images.mv("Assets/Images/" + image, function(err) {
-    //   if (err) {
-    //     return res.status(500).send(err);
-    //   }
-    // });
-
+    const { room, description, address, locations, price, quantity, room_type, bed_type } = req.body;
     const data = {
       room,
       description,
       address,
       locations,
       price,
-      quantity
+      quantity,
+      room_type,
+      bed_type
     };
 
     const id = req.params.id;

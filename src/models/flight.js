@@ -4,7 +4,7 @@ module.exports = {
     
     getAllFlight: ()=>{
         return new Promise((resolve, reject) =>{
-            conn.query('SELECT flight.id, flight.code, airlines.name airline_name FROM flight JOIN airlines on airline_id = airlines.id',
+            conn.query(`SELECT flight.id, flight.code, airlines.name airline_name FROM flight JOIN airlines on airline_id = airlines.id`,
             (err,result)=>{
                 if (!err) {
                     resolve(result)
@@ -14,6 +14,18 @@ module.exports = {
             })
         })
     },
+
+    getTotalData: () => {
+        return new Promise((resolve, reject) => {
+          conn.query("SELECT COUNT(id) as Amount FROM flight", (err, result) => {
+            if (!err) {
+              resolve(result);
+            } else {
+              reject(new Error(err));
+            }
+          });
+        });
+      },
     
     addFlight: (data) => {
         return new Promise((resolve, reject)=>{

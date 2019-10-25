@@ -1,11 +1,15 @@
 const flightModel = require('../models/flight')
+
 module.exports ={
     getAllFlight: (req, res) =>{
+
         flightModel.getAllFlight()
-            .then(resultQuery =>{
+            .then( async resultQuery =>{
+                let Amount = await flightModel.getTotalData();
                 res.json({
                     status : 200,
                     message: 'success',
+                    Amount: Amount[0].Amount,
                     data:resultQuery
                 })
             })
