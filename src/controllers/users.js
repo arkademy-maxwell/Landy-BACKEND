@@ -49,6 +49,7 @@ module.exports = {
                 success: 200,
                 message: "Login success",
                 username: result.username,
+                name: result.first_name + ' ' + result.last_name,
                 email: email,
                 token: token
               });
